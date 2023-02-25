@@ -95,6 +95,9 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error", { err });
 });
 
-app.listen(8800, () => {
-  console.log("Server running on http://localhost:8800");
+
+const port = process.env.PORT || 8800;
+
+app.listen(port, () => {
+  console.log(`Server runnign on ${port}`);
 });
