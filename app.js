@@ -15,6 +15,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 
+const MongoDBStore = require('connect-mongodb-session')(session);
+
 const mongoSanitize = require("express-mongo-sanitize");
 
 const userRoutes = require("./routes/users");
@@ -48,7 +50,18 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 
+const store = new MongoDBStore({
+  url: process.env.MONGO_URL,
+  secret: "Tatti",
+  touchAfter: 24 * 3600
+}); 
+
+store.on("error", function(err){
+  console.log("STORE ERROR!");
+})
+
 const sessionConfig = {
+  store,
   name: "excelsior",
   secret: "keyboard cat",
   resave: false,
@@ -99,5 +112,5 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 8800;
 
 app.listen(port, () => {
-  console.log(`Server runnign on ${port}`);
+  console.log(`Server running on port ${port}`);
 });
