@@ -8,8 +8,8 @@ const { places, descriptors } = require("./seedHelpers");
 const Campground = require("../models/campground");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
-const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 mongoose.set("strictQuery", false);
 mongoose.connect(
