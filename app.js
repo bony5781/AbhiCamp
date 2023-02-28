@@ -28,9 +28,7 @@ mongoose.connect(
   process.env.MONGO_URL,
   {
     useNewUrlParser: true,
-    useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
   },
   () => {
     try {
@@ -41,7 +39,12 @@ mongoose.connect(
   }
 );
 
-const app = express();
+
+const db = mongoose.connection;
+db.on('error', err => console.error(err));
+db.once('open', () => console.log('> Database connection established'));
+
+const app = express();  
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
