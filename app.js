@@ -15,7 +15,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 
-const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoStore = require('connect-mongo');
 
 const mongoSanitize = require("express-mongo-sanitize");
 
@@ -28,7 +28,9 @@ mongoose.connect(
   process.env.MONGO_URL,
   {
     useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   },
   () => {
     try {
@@ -50,20 +52,18 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 
-const store = new MongoDBStore({
-  url: process.env.MONGO_URL,
-  secret: "Tatti",
-  touchAfter: 24 * 3600
-}); 
-
-store.on("error", function(err){
-  console.log("STORE ERROR!");
-})
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_URL,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+      secret: "Pokimane"
+  }
+});
 
 const sessionConfig = {
   store,
   name: "excelsior",
-  secret: "keyboard cat",
+  secret: "Pokimane",
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -107,7 +107,6 @@ app.use((err, req, res, next) => {
   if (!err.message) err.message = "Oh No, Something went wrong!";
   res.status(statusCode).render("error", { err });
 });
-
 
 const port = process.env.PORT || 8800;
 
