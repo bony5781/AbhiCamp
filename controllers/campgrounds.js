@@ -1,13 +1,12 @@
 const Campground = require("../models/campground");
 
-// const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
-// const mapBoxToken = process.env.MAPBOX_TOKEN;
-// const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
-
 const { cloudinary } = require("../cloudinary/index");
 
 module.exports.index = async (req, res, next) => {
-  const campgrounds = await Campground.find({});
+
+  // NEWEST CAMPGROUNDS FIRST
+  const campgrounds = await Campground.find({}).sort({ _id: -1 });
+
   res.render("campgrounds/index", { campgrounds });
 };
 
@@ -16,8 +15,10 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCampground = async (req, res, next) => {
+
   const campground = new Campground(req.body.campground);
 
+  // DEFAULT INDIA LOCATION
   campground.geometry = {
     type: "Point",
     coordinates: [88.3639, 22.5726],
@@ -40,6 +41,7 @@ module.exports.createCampground = async (req, res, next) => {
 };
 
 module.exports.showCampground = async (req, res) => {
+
   const campground = await Campground.findById(req.params.id)
     .populate({
       path: "reviews",
@@ -58,6 +60,7 @@ module.exports.showCampground = async (req, res) => {
 };
 
 module.exports.renderEditForm = async (req, res) => {
+
   const { id } = req.params;
 
   const campground = await Campground.findById(id);
@@ -71,6 +74,7 @@ module.exports.renderEditForm = async (req, res) => {
 };
 
 module.exports.updateCampground = async (req, res) => {
+
   const { id } = req.params;
 
   const campground = await Campground.findByIdAndUpdate(id, {
@@ -87,6 +91,7 @@ module.exports.updateCampground = async (req, res) => {
   await campground.save();
 
   if (req.body.deleteImages) {
+
     for (let filename of req.body.deleteImages) {
       await cloudinary.uploader.destroy(filename);
     }
@@ -106,6 +111,7 @@ module.exports.updateCampground = async (req, res) => {
 };
 
 module.exports.deleteCampground = async (req, res) => {
+
   const { id } = req.params;
 
   await Campground.findByIdAndDelete(id);
