@@ -59,16 +59,48 @@ db.once("open", async () => {
     const sample = (array) =>
       array[Math.floor(Math.random() * array.length)];
 
-    const images = [
-      {
-        url: "https://res.cloudinary.com/dibjau5z6/image/upload/v1676900328/AbhiCamp/uabdhtgswpuenq2aicnp.jpg",
-        filename: "AbhiCamp/uabdhtgswpuenq2aicnp",
-      },
-      {
-        url: "https://res.cloudinary.com/dibjau5z6/image/upload/v1676900328/AbhiCamp/hpvsi0mvxc0m78irmd5u.jpg",
-        filename: "AbhiCamp/hpvsi0mvxc0m78irmd5u",
-      },
-    ];
+   const images = [
+  {
+    url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    filename: "camp1",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    filename: "camp2",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+    filename: "camp3",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b",
+    filename: "camp4",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e",
+    filename: "camp5",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+    filename: "camp6",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    filename: "camp7",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1439066615861-d1af74d74000",
+    filename: "camp8",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e",
+    filename: "camp9",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff",
+    filename: "camp10",
+  },
+];
 
     for (let i = 0; i < 50; i++) {
       const randomIndex = Math.floor(Math.random() * cities.length);
@@ -94,7 +126,9 @@ db.once("open", async () => {
           coordinates: [city.longitude, city.latitude],
         },
 
-        images: images,
+        images: [
+  images[Math.floor(Math.random() * images.length)],
+],
       });
 
       await camp.save();
