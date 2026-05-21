@@ -16,6 +16,13 @@
       enctype="multipart/form-data"
     >
 
+      <!-- CSRF TOKEN -->
+      <input
+        type="hidden"
+        name="_csrf"
+        value="<%= csrfToken %>"
+      />
+
       <!-- TITLE -->
       <div class="mb-3">
 
@@ -42,9 +49,10 @@
 
         <!-- SEARCH BAR -->
         <div id="geocoder"></div>
-<small class="text-muted">
-  Type a location and press Enter
-</small>
+
+        <small class="text-muted">
+          Type a location and press Enter
+        </small>
 
         <!-- HIDDEN INPUT -->
         <input
@@ -94,7 +102,6 @@
 
         <textarea
           class="form-control"
-          type="text"
           name="campground[description]"
           id="description"
           required
@@ -127,9 +134,11 @@
     </form>
 
     <footer>
+
       <a href="/campgrounds">
         All Campgrounds
       </a>
+
     </footer>
 
   </div>
@@ -149,6 +158,7 @@
 
   #geocoder {
     width: 100%;
+    margin-bottom: 0.5rem;
   }
 
   .leaflet-control-geocoder {
@@ -156,11 +166,16 @@
     max-width: 100%;
     border: none;
     box-shadow: none;
+    background: transparent;
+  }
+
+  .leaflet-control-geocoder-form {
+    width: 100%;
   }
 
   .leaflet-control-geocoder-form input {
     width: 100%;
-    padding: 10px;
+    padding: 12px 14px;
     border-radius: 6px;
     border: 1px solid #ced4da;
     font-size: 1rem;
@@ -184,7 +199,7 @@
 
   const hiddenMap = L.map(hiddenMapDiv);
 
-  // GEOCODER
+  // CREATE GEOCODER
   const geocoder = L.Control.geocoder({
 
     defaultMarkGeocode: false,
