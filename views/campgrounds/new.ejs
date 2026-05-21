@@ -40,7 +40,7 @@
           Location
         </label>
 
-        <!-- MAPBOX SEARCH BAR -->
+        <!-- SEARCH BAR -->
         <div id="geocoder"></div>
 
         <!-- HIDDEN INPUT -->
@@ -48,7 +48,6 @@
           type="hidden"
           name="campground[location]"
           id="location"
-          required
         />
 
       </div>
@@ -134,22 +133,46 @@
 
 </div>
 
-<!-- OPENSTREETMAP GEOCODER -->
+<!-- OPENSTREETMAP GEOCODER CSS -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+/>
+
+<!-- OPENSTREETMAP GEOCODER JS -->
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 <script>
 
+  // CREATE DUMMY MAP
+  const dummyMap = L.map(document.createElement('div'));
+
+  // CREATE GEOCODER
   const geocoder = L.Control.geocoder({
-    defaultMarkGeocode: false
+    defaultMarkGeocode: false,
+    placeholder: "Search location..."
   });
 
-  geocoder.addTo("#geocoder");
+  // ADD GEOCODER TO DUMMY MAP
+  geocoder.addTo(dummyMap);
 
-  geocoder.on("markgeocode", function(e) {
+  // PUT SEARCH BAR INSIDE PAGE
+  document
+    .getElementById("geocoder")
+    .appendChild(geocoder._container);
+
+  // SAVE LOCATION
+  geocoder.on("markgeocode", function (e) {
 
     const locationName = e.geocode.name;
 
     document.getElementById("location").value =
       locationName;
+
+    // SHOW SELECTED TEXT
+    document.querySelector(
+      "#geocoder input"
+    ).value = locationName;
 
   });
 
