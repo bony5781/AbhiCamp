@@ -49,7 +49,7 @@
 
       </div>
 
-      <!-- PREV BUTTON -->
+      <!-- PREV -->
       <button
         class="carousel-control-prev"
         type="button"
@@ -61,7 +61,7 @@
 
       </button>
 
-      <!-- NEXT BUTTON -->
+      <!-- NEXT -->
       <button
         class="carousel-control-next"
         type="button"
@@ -75,7 +75,7 @@
 
     </div>
 
-    <!-- CARD -->
+    <!-- CAMPGROUND CARD -->
     <div class="card mb-3">
 
       <div class="card-body">
@@ -97,11 +97,14 @@
         </li>
 
         <li class="list-group-item">
-  Submitted by:
-  <%= campground.author
-    ? campground.author.username
-    : "Unknown" %>
-</li>
+
+          Submitted by:
+
+          <%= campground.author
+            ? campground.author.username
+            : "Unknown" %>
+
+        </li>
 
         <li class="list-group-item">
           ₹<%= campground.price %>/night
@@ -109,8 +112,11 @@
 
       </ul>
 
-      <% if(currentUser &&
-        campground.author.equals(currentUser._id)) { %>
+      <% if(
+        currentUser &&
+        campground.author &&
+        campground.author.equals(currentUser._id)
+      ) { %>
 
         <div class="card-body">
 
@@ -147,7 +153,7 @@
     <!-- MAP -->
     <div
       id="map"
-      style="width: 100%; height: 400px;"
+      style="width:100%; height:400px;"
       class="mb-4 rounded"
     ></div>
 
@@ -161,16 +167,13 @@
       <form
         action="/campgrounds/<%= campground._id %>/reviews"
         method="POST"
-        class="mb-3 validated-form"
+        class="validated-form mb-3"
         novalidate
       >
 
         <div class="mb-3">
 
-          <label
-            class="form-label"
-            for="rating"
-          >
+          <label class="form-label">
             Rating
           </label>
 
@@ -182,11 +185,7 @@
               name="review[rating]"
               value="1"
             />
-
-            <label
-              for="first-rate1"
-              title="Terrible"
-            >
+            <label for="first-rate1">
               1 star
             </label>
 
@@ -196,11 +195,7 @@
               name="review[rating]"
               value="2"
             />
-
-            <label
-              for="first-rate2"
-              title="Not good"
-            >
+            <label for="first-rate2">
               2 stars
             </label>
 
@@ -210,11 +205,7 @@
               name="review[rating]"
               value="3"
             />
-
-            <label
-              for="first-rate3"
-              title="Average"
-            >
+            <label for="first-rate3">
               3 stars
             </label>
 
@@ -224,11 +215,7 @@
               name="review[rating]"
               value="4"
             />
-
-            <label
-              for="first-rate4"
-              title="Very good"
-            >
+            <label for="first-rate4">
               4 stars
             </label>
 
@@ -238,11 +225,7 @@
               name="review[rating]"
               value="5"
             />
-
-            <label
-              for="first-rate5"
-              title="Amazing"
-            >
+            <label for="first-rate5">
               5 stars
             </label>
 
@@ -263,7 +246,6 @@
             class="form-control"
             name="review[body]"
             id="body"
-            cols="30"
             rows="3"
             required
           ></textarea>
@@ -286,22 +268,31 @@
         <div class="card-body">
 
           <h5 class="card-title">
-            Rating :
-            <%= review.rating %>★
+            Rating : <%= review.rating %>★
           </h5>
 
           <h6 class="card-subtitle mb-2 text-muted">
+
             By :
-            <%= review.author.username %>
+
+            <%= review.author
+              ? review.author.username
+              : "Unknown" %>
+
           </h6>
 
           <p class="card-text">
+
             Comment :
             <%= review.body %>
+
           </p>
 
-          <% if(currentUser &&
-            review.author.equals(currentUser._id)) { %>
+          <% if(
+            currentUser &&
+            review.author &&
+            review.author.equals(currentUser._id)
+          ) { %>
 
             <form
               action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
@@ -338,20 +329,17 @@
 <!-- MAP SCRIPT -->
 <script>
 
-  // GET LONGITUDE + LATITUDE
   const lng =
     <%= campground.geometry.coordinates[0] %>;
 
   const lat =
     <%= campground.geometry.coordinates[1] %>;
 
-  // CREATE MAP
   const map = L.map('map').setView(
     [lat, lng],
     10
   );
 
-  // TILE LAYER
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -360,7 +348,6 @@
     }
   ).addTo(map);
 
-  // MARKER
   L.marker([lat, lng])
     .addTo(map)
     .bindPopup(
