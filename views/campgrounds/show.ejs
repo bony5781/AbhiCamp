@@ -15,6 +15,7 @@
         </div>
         <% }) %>
       </div>
+
       <% if(campground.images.length > 1 ) { %>
       <button
         class="carousel-control-prev"
@@ -25,6 +26,7 @@
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
+
       <button
         class="carousel-control-next"
         type="button"
@@ -36,57 +38,67 @@
       </button>
       <% } %>
     </div>
+
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title"><%= campground.title%></h5>
-        <p class="card-text"><%= campground.description%></p>
+        <h5 class="card-title"><%= campground.title %></h5>
+        <p class="card-text"><%= campground.description %></p>
       </div>
+
       <ul class="list-group list-group-flush">
-        <li class="list-group-item text-muted"><%= campground.location%></li>
-        <li class="list-group-item">
-          Submitted by: <%= campground.author.username%>
+        <li class="list-group-item text-muted">
+          <%= campground.location %>
         </li>
-        <li class="list-group-item">₹<%= campground.price%>/night</li>
+
+        <li class="list-group-item">
+          Submitted by:
+          <%= campground.author ? campground.author.username : "Admin" %>
+        </li>
+
+        <li class="list-group-item">
+          ₹<%= campground.price %>/night
+        </li>
       </ul>
-      <% if(currentUser &&campground.author.equals(currentUser._id)) { %>
+
+      <% if(currentUser && campground.author &&
+      campground.author.equals(currentUser._id)) { %>
+
       <div class="card-body">
         <a
           class="card-link btn btn-info"
           href="/campgrounds/<%= campground._id %>/edit"
-          >Edit</a
         >
+          Edit
+        </a>
+
         <form
           class="d-inline"
           action="/campgrounds/<%= campground._id %>?_method=DELETE"
           method="POST"
         >
-          <button class="btn btn-danger">Delete campground</button>
+          <button class="btn btn-danger">
+            Delete campground
+          </button>
         </form>
       </div>
+
       <% } %>
     </div>
   </div>
+
   <div class="col-6">
-    <div id='map'></div>
+    <div id="map"></div>
+
     <% if(currentUser) { %>
+
     <h2>Leave a Review</h2>
+
     <form
       action="/campgrounds/<%=campground._id %>/reviews"
       method="POST"
       class="mb-3 validated-form"
       novalidate
     >
-      <!-- <div class="mb-3">
-        <label class="form-label" for="rating">Rating</label>
-        <input
-          class="form-range"
-          type="range"
-          name="review[rating]"
-          id="rating"
-          min="1"
-          max="5"
-        />
-      </div> -->
       <div class="mb-3">
         <fieldset class="starability-basic">
           <input
@@ -98,6 +110,7 @@
             checked
             aria-label="No rating."
           />
+
           <input
             type="radio"
             id="first-rate1"
@@ -105,6 +118,7 @@
             value="1"
           />
           <label for="first-rate1" title="Terrible">1 star</label>
+
           <input
             type="radio"
             id="first-rate2"
@@ -112,6 +126,7 @@
             value="2"
           />
           <label for="first-rate2" title="Not good">2 stars</label>
+
           <input
             type="radio"
             id="first-rate3"
@@ -119,6 +134,7 @@
             value="3"
           />
           <label for="first-rate3" title="Average">3 stars</label>
+
           <input
             type="radio"
             id="first-rate4"
@@ -126,6 +142,7 @@
             value="4"
           />
           <label for="first-rate4" title="Very good">4 stars</label>
+
           <input
             type="radio"
             id="first-rate5"
@@ -135,8 +152,12 @@
           <label for="first-rate5" title="Amazing">5 stars</label>
         </fieldset>
       </div>
+
       <div class="mb-3">
-        <label class="form-label" for="body">Review Text : </label>
+        <label class="form-label" for="body">
+          Review Text :
+        </label>
+
         <textarea
           class="form-control"
           name="review[body]"
@@ -146,14 +167,25 @@
           required
         ></textarea>
       </div>
-      <button class="btn btn-success">Add review</button>
+
+      <button class="btn btn-success">
+        Add review
+      </button>
     </form>
-    <% } %> <% for(let review of campground.reviews) { %>
+
+    <% } %>
+
+    <% for(let review of campground.reviews) { %>
+
     <div class="card mb-2">
       <div class="mb-3 card-body">
+
         <h5 class="card-title">
           <div class="star-wrapper" style="display: flex; gap: 0.1rem">
-            Rating : <% for( let i = 0; i < review.rating; i++ ) { %>
+
+            Rating :
+
+            <% for(let i = 0; i < review.rating; i++) { %>
             <div
               class="star-filled"
               style="
@@ -163,7 +195,9 @@
             >
               &#9733;
             </div>
-            <% } %> <% for( let i = 0; i < 5 - review.rating; i++ ) { %>
+            <% } %>
+
+            <% for(let i = 0; i < 5 - review.rating; i++) { %>
             <div
               class="star-unfilled"
               style="
@@ -174,22 +208,36 @@
               &#9734;
             </div>
             <% } %>
+
           </div>
         </h5>
+
         <h6 class="card-subtitle mb-2 text-muted">
-          By : <%= review.author.username %>
+          By :
+          <%= review.author ? review.author.username : "Anonymous" %>
         </h6>
-        <p class="card-text">Comment : <%= review.body %></p>
-        <% if(currentUser && review.author.equals(currentUser._id)) { %>
+
+        <p class="card-text">
+          Comment : <%= review.body %>
+        </p>
+
+        <% if(currentUser && review.author &&
+        review.author.equals(currentUser._id)) { %>
+
         <form
           action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
           method="POST"
         >
-          <button class="btn btn-sm btn-danger">Delete</button>
+          <button class="btn btn-sm btn-danger">
+            Delete
+          </button>
         </form>
+
         <% } %>
+
       </div>
     </div>
+
     <% } %>
   </div>
 </div>
@@ -198,5 +246,4 @@
   const campground = <%- JSON.stringify(campground) %>;
 </script>
 
-<script src= "/javascript/showPageMap.js">
-</script>
+<script src="/javascript/showPageMap.js"></script>
