@@ -19,10 +19,13 @@ module.exports.createCampground = async (req, res, next) => {
 
   const campground = new Campground(req.body.campground);
 
-  // DEFAULT LOCATION (KOLKATA)
+  // SAVE REAL LOCATION COORDINATES
   campground.geometry = {
     type: "Point",
-    coordinates: [88.3639, 22.5726],
+    coordinates: [
+      req.body.campground.lng,
+      req.body.campground.lat,
+    ],
   };
 
   campground.images = req.files.map((f) => ({
