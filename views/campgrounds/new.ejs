@@ -133,30 +133,66 @@
 
 </div>
 
-<!-- OPENSTREETMAP GEOCODER CSS -->
+<!-- GEOCODER CSS -->
 <link
   rel="stylesheet"
   href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
 />
 
-<!-- OPENSTREETMAP GEOCODER JS -->
+<!-- GEOCODER JS -->
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<style>
+
+  #geocoder {
+    width: 100%;
+  }
+
+  .leaflet-control-geocoder {
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+
+  .leaflet-control-geocoder-form input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    font-size: 1rem;
+  }
+
+  .leaflet-control-geocoder-icon {
+    display: none;
+  }
+
+</style>
 
 <script>
 
-  // CREATE DUMMY MAP
-  const dummyMap = L.map(document.createElement('div'));
+  // HIDDEN MAP
+  const hiddenMapDiv = document.createElement("div");
 
-  // CREATE GEOCODER
+  hiddenMapDiv.style.height = "0px";
+  hiddenMapDiv.style.width = "0px";
+
+  document.body.appendChild(hiddenMapDiv);
+
+  const hiddenMap = L.map(hiddenMapDiv);
+
+  // GEOCODER
   const geocoder = L.Control.geocoder({
+
     defaultMarkGeocode: false,
+
     placeholder: "Search location..."
+
   });
 
-  // ADD GEOCODER TO DUMMY MAP
-  geocoder.addTo(dummyMap);
+  geocoder.addTo(hiddenMap);
 
-  // PUT SEARCH BAR INSIDE PAGE
+  // INSERT SEARCH BOX
   document
     .getElementById("geocoder")
     .appendChild(geocoder._container);
@@ -169,9 +205,8 @@
     document.getElementById("location").value =
       locationName;
 
-    // SHOW SELECTED TEXT
     document.querySelector(
-      "#geocoder input"
+      ".leaflet-control-geocoder-form input"
     ).value = locationName;
 
   });
