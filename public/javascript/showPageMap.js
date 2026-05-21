@@ -1,4 +1,9 @@
-const coordinates = campground.geometry.coordinates;
+const map = L.map('map', {
+    scrollWheelZoom: false
+}).setView(
+    [coordinates[1], coordinates[0]],
+    10
+);
 
 const map = L.map('map').setView(
     [coordinates[1], coordinates[0]],
