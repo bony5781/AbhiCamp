@@ -134,32 +134,22 @@
 
 </div>
 
-<!-- MAPBOX GEOCODER -->
+<!-- OPENSTREETMAP GEOCODER -->
 
 <script>
 
-  mapboxgl.accessToken = "<%= mapToken %>";
-
-  const geocoder = new MapboxGeocoder({
-
-    accessToken: mapboxgl.accessToken,
-
-    mapboxgl: mapboxgl,
-
-    marker: false,
-
-    placeholder: "Search for a location in India",
-
-    countries: "in"
-
+  const geocoder = L.Control.geocoder({
+    defaultMarkGeocode: false
   });
 
   geocoder.addTo("#geocoder");
 
-  geocoder.on("result", (e) => {
+  geocoder.on("markgeocode", function(e) {
+
+    const locationName = e.geocode.name;
 
     document.getElementById("location").value =
-      e.result.place_name;
+      locationName;
 
   });
 
