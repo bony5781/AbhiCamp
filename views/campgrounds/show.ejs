@@ -1,30 +1,64 @@
 <% layout('../layout/boilerplate') %>
+
 <link rel="stylesheet" href="/stylesheets/stars.css" />
 
+<style>
+  #map {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+</style>
+
 <div class="row">
+
+  <!-- LEFT SIDE -->
   <div class="col-6">
+
+    <!-- IMAGE CAROUSEL -->
     <div
       id="carouselExampleControls"
       class="carousel slide"
       data-bs-ride="carousel"
     >
+
       <div class="carousel-inner">
+
         <% campground.images.forEach((img,i) => { %>
-        <div class="carousel-item <%= i==0 ? "active" : "" %>">
-          <img src="<%= img.url %>" class="d-block w-100" alt="" />
-        </div>
+
+          <div class="carousel-item <%= i==0 ? "active" : "" %>">
+
+            <img
+              src="<%= img.url %>"
+              class="d-block w-100"
+              alt=""
+            />
+
+          </div>
+
         <% }) %>
+
       </div>
 
       <% if(campground.images.length > 1 ) { %>
+
       <button
         class="carousel-control-prev"
         type="button"
         data-bs-target="#carouselExampleControls"
         data-bs-slide="prev"
       >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+
+        <span
+          class="carousel-control-prev-icon"
+          aria-hidden="true"
+        ></span>
+
+        <span class="visually-hidden">
+          Previous
+        </span>
+
       </button>
 
       <button
@@ -33,37 +67,62 @@
         data-bs-target="#carouselExampleControls"
         data-bs-slide="next"
       >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+
+        <span
+          class="carousel-control-next-icon"
+          aria-hidden="true"
+        ></span>
+
+        <span class="visually-hidden">
+          Next
+        </span>
+
       </button>
+
       <% } %>
+
     </div>
 
+    <!-- CARD -->
     <div class="card mb-3">
+
       <div class="card-body">
-        <h5 class="card-title"><%= campground.title %></h5>
-        <p class="card-text"><%= campground.description %></p>
+
+        <h5 class="card-title">
+          <%= campground.title %>
+        </h5>
+
+        <p class="card-text">
+          <%= campground.description %>
+        </p>
+
       </div>
 
       <ul class="list-group list-group-flush">
+
         <li class="list-group-item text-muted">
           <%= campground.location %>
         </li>
 
         <li class="list-group-item">
+
           Submitted by:
+
           <%= campground.author ? campground.author.username : "Admin" %>
+
         </li>
 
         <li class="list-group-item">
           ₹<%= campground.price %>/night
         </li>
+
       </ul>
 
       <% if(currentUser && campground.author &&
       campground.author.equals(currentUser._id)) { %>
 
       <div class="card-body">
+
         <a
           class="card-link btn btn-info"
           href="/campgrounds/<%= campground._id %>/edit"
@@ -76,17 +135,25 @@
           action="/campgrounds/<%= campground._id %>?_method=DELETE"
           method="POST"
         >
+
           <button class="btn btn-danger">
             Delete campground
           </button>
+
         </form>
+
       </div>
 
       <% } %>
+
     </div>
+
   </div>
 
+  <!-- RIGHT SIDE -->
   <div class="col-6">
+
+    <!-- MAP -->
     <div id="map"></div>
 
     <% if(currentUser) { %>
@@ -99,8 +166,12 @@
       class="mb-3 validated-form"
       novalidate
     >
+
+      <!-- STARS -->
       <div class="mb-3">
+
         <fieldset class="starability-basic">
+
           <input
             type="radio"
             id="no-rate"
@@ -117,7 +188,10 @@
             name="review[rating]"
             value="1"
           />
-          <label for="first-rate1" title="Terrible">1 star</label>
+
+          <label for="first-rate1">
+            1 star
+          </label>
 
           <input
             type="radio"
@@ -125,7 +199,10 @@
             name="review[rating]"
             value="2"
           />
-          <label for="first-rate2" title="Not good">2 stars</label>
+
+          <label for="first-rate2">
+            2 stars
+          </label>
 
           <input
             type="radio"
@@ -133,7 +210,10 @@
             name="review[rating]"
             value="3"
           />
-          <label for="first-rate3" title="Average">3 stars</label>
+
+          <label for="first-rate3">
+            3 stars
+          </label>
 
           <input
             type="radio"
@@ -141,7 +221,10 @@
             name="review[rating]"
             value="4"
           />
-          <label for="first-rate4" title="Very good">4 stars</label>
+
+          <label for="first-rate4">
+            4 stars
+          </label>
 
           <input
             type="radio"
@@ -149,11 +232,18 @@
             name="review[rating]"
             value="5"
           />
-          <label for="first-rate5" title="Amazing">5 stars</label>
+
+          <label for="first-rate5">
+            5 stars
+          </label>
+
         </fieldset>
+
       </div>
 
+      <!-- REVIEW TEXT -->
       <div class="mb-3">
+
         <label class="form-label" for="body">
           Review Text :
         </label>
@@ -166,59 +256,69 @@
           rows="3"
           required
         ></textarea>
+
       </div>
 
       <button class="btn btn-success">
         Add review
       </button>
+
     </form>
 
     <% } %>
 
+    <!-- REVIEWS -->
     <% for(let review of campground.reviews) { %>
 
     <div class="card mb-2">
+
       <div class="mb-3 card-body">
 
         <h5 class="card-title">
-          <div class="star-wrapper" style="display: flex; gap: 0.1rem">
+
+          <div
+            class="star-wrapper"
+            style="display: flex; gap: 0.1rem"
+          >
 
             Rating :
 
             <% for(let i = 0; i < review.rating; i++) { %>
-            <div
-              class="star-filled"
-              style="
-                color: #f7c348;
-                text-shadow: 0.2px 0.5px 0 rgba(0, 0, 0, 0.25);
-              "
-            >
-              &#9733;
-            </div>
+
+              <div
+                style="color:#f7c348;"
+              >
+                &#9733;
+              </div>
+
             <% } %>
 
             <% for(let i = 0; i < 5 - review.rating; i++) { %>
-            <div
-              class="star-unfilled"
-              style="
-                color: #f7c348;
-                text-shadow: 0.2px 0.5px 0 rgba(0, 0, 0, 0.25);
-              "
-            >
-              &#9734;
-            </div>
+
+              <div
+                style="color:#f7c348;"
+              >
+                &#9734;
+              </div>
+
             <% } %>
 
           </div>
+
         </h5>
 
         <h6 class="card-subtitle mb-2 text-muted">
+
           By :
           <%= review.author ? review.author.username : "Anonymous" %>
+
         </h6>
 
         <p class="card-text">
-          Comment : <%= review.body %>
+
+          Comment :
+          <%= review.body %>
+
         </p>
 
         <% if(currentUser && review.author &&
@@ -228,22 +328,41 @@
           action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
           method="POST"
         >
+
           <button class="btn btn-sm btn-danger">
             Delete
           </button>
+
         </form>
 
         <% } %>
 
       </div>
+
     </div>
 
     <% } %>
+
   </div>
+
 </div>
 
-<script>
-  const campground = <%- JSON.stringify(campground) %>;
-</script>
+<!-- LEAFLET MAP -->
 
-<script src="/javascript/showPageMap.js"></script>
+<script>
+
+  const map = L.map('map').setView([20.5937, 78.9629], 4);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; OpenStreetMap contributors'
+    }
+  ).addTo(map);
+
+  L.marker([20.5937, 78.9629])
+    .addTo(map)
+    .bindPopup("<%= campground.location %>")
+    .openPopup();
+
+</script>
