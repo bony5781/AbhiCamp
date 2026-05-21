@@ -8,31 +8,42 @@
 
     <title>AbhiCamp</title>
 
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css'
+    <!-- Bootstrap CSS -->
+    <link
+        href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css'
         rel='stylesheet'
         integrity='sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl'
-        crossorigin='anonymous'>
+        crossorigin='anonymous'
+    >
 
+    <!-- Bootstrap Icons -->
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
 
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/stylesheets/home.css">
 </head>
 
 <body class='d-flex text-center text-white bg-dark'>
+
     <div class='cover-container d-flex flex-column w-100 h-100 p-3 mx-auto'>
 
+        <!-- HEADER -->
         <header class='mb-auto'>
             <div>
+
                 <h3 class='float-md-start md-3 mb-md-0'>
                     <i class="bi bi-tree-fill me-2"></i>
                     AbhiCamp
                 </h3>
 
                 <nav class='nav nav-masthead justify-content-center float-md-end'>
-                    <a class='nav-link active' aria-current='page' href='#'>Home</a>
+
+                    <a class='nav-link active' aria-current='page' href='/'>
+                        Home
+                    </a>
 
                     <a class='nav-link' href='/campgrounds'>
                         Campgrounds
@@ -55,44 +66,59 @@
                         </a>
 
                     <% } %>
+
                 </nav>
+
             </div>
         </header>
 
+        <!-- MAIN CONTENT -->
         <main class="px-3">
 
             <i class="bi bi-tree-fill display-1 mb-3"></i>
 
-            <h1>AbhiCamp</h1>
+            <h1 class="fw-bold">
+                Discover India's Best Camping Destinations
+            </h1>
 
-            <p class="lead">
-                Welcome to AbhiCamp!
-                <br>
-                Jump right in and explore our many campgrounds.
-                <br>
-                Feel free to share some of your own and comment on others!
+            <p class="lead mt-4">
+                Explore scenic campgrounds across India —
+                from the mountains of Himachal
+                to the beaches of Kerala.
             </p>
 
-            <a href="/campgrounds"
-                class="btn btn-lg btn-secondary font-weight-bold border-white bg-white">
-                View Campgrounds
+            <p class="lead">
+                Share experiences, review campsites,
+                and plan your next outdoor adventure with AbhiCamp.
+            </p>
+
+            <a
+                href="/campgrounds"
+                class="btn btn-lg btn-light mt-3 px-4 py-2 fw-bold"
+            >
+                Explore Campgrounds
             </a>
 
         </main>
 
+        <!-- FOOTER -->
         <footer class="mt-auto text-white-50">
-            <p>&copy; 2023 AbhiCamp Made by Abhinav Bhowmik</p>
+
+            <p>
+                © 2026 AbhiCamp • Made by Abhinav Bhowmik
+            </p>
+
         </footer>
 
     </div>
 
+    <!-- Bootstrap JS -->
     <script
         src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js'
-        integrity='sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0'
-        crossorigin='anonymous'>
+        integrity='sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38YkeH8z8QjE0GmW1gYU5S9FOnJ0'
+        crossorigin='anonymous'
+    >
     </script>
-
-    <script src='/js/formValidator.js'></script>
 
 </body>
 
