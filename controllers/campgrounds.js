@@ -20,13 +20,13 @@ module.exports.createCampground = async (req, res, next) => {
   const campground = new Campground(req.body.campground);
 
   // SAVE REAL LOCATION COORDINATES
-  campground.geometry = {
-    type: "Point",
-    coordinates: [
-      req.body.campground.lng,
-      req.body.campground.lat,
-    ],
-  };
+campground.geometry = {
+  type: "Point",
+  coordinates: [
+    parseFloat(req.body.campground.lng),
+    parseFloat(req.body.campground.lat),
+  ],
+};
 
   campground.images = req.files.map((f) => ({
     url: f.path,
