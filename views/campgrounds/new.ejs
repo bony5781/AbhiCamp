@@ -44,11 +44,10 @@
         <div id="geocoder"></div>
 
         <small class="text-muted">
-          Type a location and select from dropdown
+          Search and select a location
         </small>
 
         <!-- HIDDEN INPUTS -->
-
         <input
           type="hidden"
           name="campground[location]"
@@ -207,16 +206,13 @@
 
   // CREATE GEOCODER
   const geocoder = L.Control.geocoder({
-
     defaultMarkGeocode: false,
-
     placeholder: "Search location..."
-
   });
 
   geocoder.addTo(hiddenMap);
 
-  // INSERT SEARCH BOX
+  // INSERT SEARCH INPUT
   document
     .getElementById("geocoder")
     .appendChild(geocoder._container);
@@ -224,46 +220,22 @@
   // WHEN USER SELECTS LOCATION
   geocoder.on("markgeocode", function (e) {
 
-    const locationName = e.geocode.name;
-
-    // SAVE LOCATION
+    // LOCATION NAME
     document.getElementById("location").value =
-      locationName;
+      e.geocode.name;
 
-    // SAVE LATITUDE
+    // LATITUDE
     document.getElementById("lat").value =
-      e.geocode.properties.geocoding.lat;
+      e.geocode.center.lat;
 
-    // SAVE LONGITUDE
+    // LONGITUDE
     document.getElementById("lng").value =
-      e.geocode.properties.geocoding.lon;
+      e.geocode.center.lng;
 
-    // SHOW LOCATION
+    // SHOW SELECTED TEXT
     document.querySelector(
       ".leaflet-control-geocoder-form input"
-    ).value = locationName;
-
-  });
-
-  // FIX CLICK ISSUE
-  document.addEventListener("click", function (e) {
-
-    const item = e.target.closest(
-      ".leaflet-control-geocoder-alternatives li"
-    );
-
-    if (!item) return;
-
-    setTimeout(() => {
-
-      const input = document.querySelector(
-        ".leaflet-control-geocoder-form input"
-      );
-
-      document.getElementById("location").value =
-        input.value;
-
-    }, 100);
+    ).value = e.geocode.name;
 
   });
 
