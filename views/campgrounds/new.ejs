@@ -36,12 +36,14 @@
       <!-- LOCATION -->
       <div class="mb-3">
 
-        <label class="form-label" for="geocoder">
+        <label class="form-label">
           Location
         </label>
 
+        <!-- MAPBOX SEARCH BAR -->
         <div id="geocoder"></div>
 
+        <!-- HIDDEN INPUT -->
         <input
           type="hidden"
           name="campground[location]"
@@ -136,23 +138,27 @@
 
 <script>
 
-  mapboxgl.accessToken = '<%= mapToken %>';
+  mapboxgl.accessToken = "<%= mapToken %>";
 
   const geocoder = new MapboxGeocoder({
 
     accessToken: mapboxgl.accessToken,
 
-    types: 'place,postcode,locality,region',
+    mapboxgl: mapboxgl,
 
-    placeholder: 'Search location...',
+    marker: false,
+
+    placeholder: "Search for a location in India",
+
+    countries: "in"
 
   });
 
-  geocoder.addTo('#geocoder');
+  geocoder.addTo("#geocoder");
 
-  geocoder.on('result', (e) => {
+  geocoder.on("result", (e) => {
 
-    document.getElementById('location').value =
+    document.getElementById("location").value =
       e.result.place_name;
 
   });
