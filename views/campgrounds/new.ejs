@@ -44,7 +44,7 @@
         <div id="geocoder"></div>
 
         <small class="text-muted">
-          Type a location and press Enter
+          Type a location and select from dropdown
         </small>
 
         <!-- HIDDEN INPUTS -->
@@ -221,7 +221,7 @@
     .getElementById("geocoder")
     .appendChild(geocoder._container);
 
-  // SAVE LOCATION + COORDINATES
+  // WHEN USER SELECTS LOCATION
   geocoder.on("markgeocode", function (e) {
 
     const locationName = e.geocode.name;
@@ -230,18 +230,40 @@
     document.getElementById("location").value =
       locationName;
 
-   // SAVE LATITUDE
-document.getElementById("lat").value =
-  e.geocode.properties.geocoding.lat;
+    // SAVE LATITUDE
+    document.getElementById("lat").value =
+      e.geocode.properties.geocoding.lat;
 
-// SAVE LONGITUDE
-document.getElementById("lng").value =
-  e.geocode.properties.geocoding.lon;
+    // SAVE LONGITUDE
+    document.getElementById("lng").value =
+      e.geocode.properties.geocoding.lon;
 
-    // SHOW LOCATION IN INPUT
+    // SHOW LOCATION
     document.querySelector(
       ".leaflet-control-geocoder-form input"
     ).value = locationName;
+
+  });
+
+  // FIX CLICK ISSUE
+  document.addEventListener("click", function (e) {
+
+    const item = e.target.closest(
+      ".leaflet-control-geocoder-alternatives li"
+    );
+
+    if (!item) return;
+
+    setTimeout(() => {
+
+      const input = document.querySelector(
+        ".leaflet-control-geocoder-form input"
+      );
+
+      document.getElementById("location").value =
+        input.value;
+
+    }, 100);
 
   });
 
