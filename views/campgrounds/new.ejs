@@ -230,13 +230,13 @@
     document.getElementById("location").value =
       locationName;
 
-    // SAVE LAT
-    document.getElementById("lat").value =
-      e.geocode.center.lat;
+    // SAVE LATITUDE
+document.getElementById("lat").value =
+  e.geocode.center.y;
 
-    // SAVE LNG
-    document.getElementById("lng").value =
-      e.geocode.center.lng;
+// SAVE LONGITUDE
+document.getElementById("lng").value =
+  e.geocode.center.x;
 
     // SHOW LOCATION IN INPUT
     document.querySelector(
