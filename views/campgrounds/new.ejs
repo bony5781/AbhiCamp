@@ -1,7 +1,13 @@
 <% layout('../layout/boilerplate') %>
+
 <div class="row">
-  <h1 class="text-center">New Campground</h1>
+
+  <h1 class="text-center mb-4">
+    New Campground
+  </h1>
+
   <div class="col-6 offset-3">
+
     <form
       action="/campgrounds"
       method="POST"
@@ -9,8 +15,14 @@
       class="validated-form"
       enctype="multipart/form-data"
     >
+
+      <!-- TITLE -->
       <div class="mb-3">
-        <label class="form-label" for="title">Title</label>
+
+        <label class="form-label" for="title">
+          Title
+        </label>
+
         <input
           class="form-control"
           type="text"
@@ -18,33 +30,42 @@
           id="title"
           required
         />
+
       </div>
+
+      <!-- LOCATION -->
       <div class="mb-3">
-        <label class="form-label" for="location">Location</label>
+
+        <label class="form-label" for="geocoder">
+          Location
+        </label>
+
+        <div id="geocoder"></div>
+
         <input
-          class="form-control"
-          type="text"
+          type="hidden"
           name="campground[location]"
           id="location"
           required
         />
+
       </div>
-      <!-- <div class="mb-3">
-        <label class="form-label" for="image">Image Url</label>
-        <input
-          class="form-control"
-          type="text"
-          name="campground[image]"
-          id="image"
-          required
-        />
-      </div> -->
+
+      <!-- PRICE -->
       <div class="mb-3">
-        <label class="form-label" for="price">Campground Price</label>
+
+        <label class="form-label" for="price">
+          Campground Price
+        </label>
+
         <div class="input-group">
+
           <div class="input-group-prepend">
-            <span class="input-group-text" id="price-label">₹</span>
+            <span class="input-group-text" id="price-label">
+              ₹
+            </span>
           </div>
+
           <input
             type="text"
             class="form-control"
@@ -55,10 +76,18 @@
             name="campground[price]"
             required
           />
+
         </div>
+
       </div>
+
+      <!-- DESCRIPTION -->
       <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
+
+        <label class="form-label" for="description">
+          Description
+        </label>
+
         <textarea
           class="form-control"
           type="text"
@@ -66,8 +95,12 @@
           id="description"
           required
         ></textarea>
+
       </div>
+
+      <!-- IMAGE -->
       <div class="mb-3">
+
         <input
           class="form-control"
           name="image"
@@ -75,13 +108,53 @@
           id="images"
           multiple
         />
+
       </div>
+
+      <!-- BUTTON -->
       <div class="mb-3">
-        <button class="btn btn-success">Add Campground</button>
+
+        <button class="btn btn-success">
+          Add Campground
+        </button>
+
       </div>
+
     </form>
+
     <footer>
-      <a href="/campgrounds">All Campgrounds</a>
+      <a href="/campgrounds">
+        All Campgrounds
+      </a>
     </footer>
+
   </div>
+
 </div>
+
+<!-- MAPBOX GEOCODER -->
+
+<script>
+
+  mapboxgl.accessToken = '<%= mapToken %>';
+
+  const geocoder = new MapboxGeocoder({
+
+    accessToken: mapboxgl.accessToken,
+
+    types: 'place,postcode,locality,region',
+
+    placeholder: 'Search location...',
+
+  });
+
+  geocoder.addTo('#geocoder');
+
+  geocoder.on('result', (e) => {
+
+    document.getElementById('location').value =
+      e.result.place_name;
+
+  });
+
+</script>
